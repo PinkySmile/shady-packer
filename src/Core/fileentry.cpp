@@ -117,17 +117,15 @@ void ShadyCore::Package::saveDir(const std::filesystem::path& directory, bool re
 		// Use auto because on Windows sjis2ws returns a std::wstring and on Unix it returns a std::string
 		auto filename = recreateStructure ? sjis2ws(removeExt(i->first.actualName)) : sjis2ws(i->first.name);
 		std::filesystem::path final = target / targetType.appendExtValue(filename);
+		std::error_code err;
 
 		std::filesystem::create_directories(final.parent_path());
-		try {
-			std::filesystem::rename(tempFile, final);
-		} catch (std::filesystem::__cxx11::filesystem_error &) {
-			try {
-				std::filesystem::remove(final);
-			} catch (std::filesystem::__cxx11::filesystem_error &) {}
-			std::filesystem::copy(tempFile, final);
-			std::filesystem::remove(tempFile);
-		}
+		std::filesystem::rename(tempFile, final, err);
+		if (!err)
+			continue;
+		std::filesystem::remove(final, err);
+		std::filesystem::copy(tempFile, final);
+		std::filesystem::remove(tempFile);
 	}
 }
 
