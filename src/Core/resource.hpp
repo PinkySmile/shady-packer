@@ -162,7 +162,7 @@ namespace ShadyCore {
 			class MoveEffect {
 			public:
 				int32_t pivotX, pivotY;
-				int32_t positionXExtra, positionYExtra;
+				int32_t positionExtraX, positionExtraY;
 				int32_t positionX, positionY;
 				uint16_t unknown02RESETSTATE; //TODO
 				int16_t speedX, speedY;
@@ -203,6 +203,7 @@ namespace ShadyCore {
 
 			std::vector<Frame*> frames;
 			inline Sequence(uint32_t id, bool isAnimation) : Object(id, isAnimation ? 8 : 9) {}
+			Sequence(const Sequence &) = delete;
 			virtual ~Sequence();
 		};
 

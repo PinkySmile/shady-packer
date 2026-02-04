@@ -233,8 +233,8 @@ namespace {
 	const AttributeMap XmlMoveEffect = {
 		{"xpivot",          {(setter_t)setter<int32_t>,     offsetof(ShadyCore::Schema::Sequence::MoveEffect, pivotX)}},
 		{"ypivot",          {(setter_t)setter<int32_t>,     offsetof(ShadyCore::Schema::Sequence::MoveEffect, pivotY)}},
-		{"xpositionextra",  {(setter_t)setter<int32_t>,     offsetof(ShadyCore::Schema::Sequence::MoveEffect, positionXExtra)}},
-		{"ypositionextra",  {(setter_t)setter<int32_t>,     offsetof(ShadyCore::Schema::Sequence::MoveEffect, positionYExtra)}},
+		{"xpositionextra",  {(setter_t)setter<int32_t>,     offsetof(ShadyCore::Schema::Sequence::MoveEffect, positionExtraX)}},
+		{"ypositionextra",  {(setter_t)setter<int32_t>,     offsetof(ShadyCore::Schema::Sequence::MoveEffect, positionExtraY)}},
 		{"xposition",       {(setter_t)setter<int32_t>,     offsetof(ShadyCore::Schema::Sequence::MoveEffect, positionX)}},
 		{"yposition",       {(setter_t)setter<int32_t>,     offsetof(ShadyCore::Schema::Sequence::MoveEffect, positionY)}},
 		{"unknown02",       {(setter_t)setter<uint16_t, 16>,offsetof(ShadyCore::Schema::Sequence::MoveEffect, unknown02RESETSTATE)}},
@@ -580,8 +580,8 @@ static void writerSchemaXmlNode(ShadyCore::Schema& resource, ShadyUtil::XmlPrint
 			auto object = reinterpret_cast<ShadyCore::Schema::Sequence::MoveEffect*>(data);
 			printer.appendAttribute("xpivot", object->pivotX);
 			printer.appendAttribute("ypivot", object->pivotY);
-			printer.appendAttribute("xpositionextra", object->positionXExtra);
-			printer.appendAttribute("ypositionextra", object->positionYExtra);
+			printer.appendAttribute("xpositionextra", object->positionExtraX);
+			printer.appendAttribute("ypositionextra", object->positionExtraY);
 			printer.appendAttribute("xposition", object->positionX);
 			printer.appendAttribute("yposition", object->positionY);
 			printer.appendAttribute("unknown02", object->unknown02RESETSTATE, true);
