@@ -22,7 +22,7 @@ namespace ShadyCore {
 			Key(Key&&) = delete;
 			Key(const std::string_view&);
 			Key(const std::string_view&, FileType::Type type);
-			inline ~Key() { delete name.data(); }
+			inline ~Key() { delete[] name.data(); }
 
 			struct hash {
 				inline std::size_t operator()(const Key& v) const noexcept {
