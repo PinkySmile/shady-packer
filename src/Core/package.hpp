@@ -60,12 +60,24 @@ namespace ShadyCore {
 			inline std::istream& open() const { return operator*().second->open(); }
 			inline void close(std::istream& s) const { return operator*().second->close(s); }
 		};
+		class const_iterator : public MapType::const_iterator {
+		public:
+			inline const_iterator() : MapType::const_iterator() {}
+			inline const_iterator(const MapType::const_iterator& i) : MapType::const_iterator(i) {}
+			inline const std::string_view& name() const { return operator*().first.name; }
+			inline BasePackageEntry& entry() const { return *operator*().second; }
+			FileType fileType() const;
+			inline std::istream& open() const { return operator*().second->open(); }
+			inline void close(std::istream& s) const { return operator*().second->close(s); }
+		};
 
 		Package(const std::filesystem::path& basePath);
 		virtual ~Package();
 
 		inline iterator begin() { return entries.begin(); }
 		inline iterator end() { return entries.end(); }
+		inline const_iterator begin() const { return entries.begin(); }
+		inline const_iterator end() const { return entries.end(); }
 		inline iterator find(const std::string_view& name) { return entries.find(name); }
 		inline iterator find(const std::string_view& name, FileType::Type type)
 			{ Key k(name, type); return entries.find(k); }
