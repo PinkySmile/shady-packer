@@ -8,19 +8,19 @@
 
 #include <string>
 
-template<typename T1, typename T2, std::basic_string<unsigned> decoder(const std::basic_string<T1> &), std::basic_string<T2> encoder(const std::basic_string<unsigned> &)>
+template<typename T1, typename T2, std::basic_string<char32_t> decoder(const std::basic_string<T1> &), std::basic_string<T2> encoder(const std::basic_string<char32_t> &)>
 std::basic_string<T2> convertEncoding(const std::basic_string<T1> &str)
 {
 	return encoder(decoder(str));
 }
 
-std::basic_string<unsigned> shiftJISDecode(const std::string &str);
-std::basic_string<unsigned> UTF8Decode(const std::string &str);
-std::basic_string<unsigned> UTF16Decode(const std::wstring &str);
+std::basic_string<char32_t> shiftJISDecode(const std::string &str);
+std::basic_string<char32_t> UTF8Decode(const std::string &str);
+std::basic_string<char32_t> UTF16Decode(const std::wstring &str);
 
-std::string shiftJISEncode(const std::basic_string<unsigned> &str);
-std::string UTF8Encode(const std::basic_string<unsigned> &str);
-std::wstring UTF16Encode(const std::basic_string<unsigned> &str);
+std::string shiftJISEncode(const std::basic_string<char32_t> &str);
+std::string UTF8Encode(const std::basic_string<char32_t> &str);
+std::wstring UTF16Encode(const std::basic_string<char32_t> &str);
 
 
 #endif //SOKULOBBIES_ENCODINGCONVERTER_HPP

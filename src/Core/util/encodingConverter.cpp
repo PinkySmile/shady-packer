@@ -7,9 +7,9 @@
 #include "shiftJISConvTable.inl"
 #include "shiftJISReverseConvTable.inl"
 
-std::basic_string<unsigned> shiftJISDecode(const std::string &str)
+std::basic_string<char32_t> shiftJISDecode(const std::string &str)
 {
-	std::basic_string<unsigned> output;
+	std::basic_string<char32_t> output;
 	auto bytes = reinterpret_cast<const unsigned char *>(str.c_str());
 
 	output.reserve(str.size());
@@ -32,7 +32,9 @@ std::basic_string<unsigned> shiftJISDecode(const std::string &str)
 		uint16_t unicodeValue = 0xFFFD;
 		auto it = shiftJISConvTable.find(arrayOffset);
 
-		if (it != shiftJISConvTable.end())
+		if (arrayOffset < 0x80)
+			unicodeValue = arrayOffset;
+		else if (it != shiftJISConvTable.end())
 			unicodeValue = it->second;
 		output.push_back(unicodeValue);
 	}
@@ -40,9 +42,9 @@ std::basic_string<unsigned> shiftJISDecode(const std::string &str)
 	return output;
 }
 
-std::basic_string<unsigned> UTF8Decode(const std::string &str)
+std::basic_string<char32_t> UTF8Decode(const std::string &str)
 {
-	std::basic_string<unsigned> output;
+	std::basic_string<char32_t> output;
 	auto bytes = reinterpret_cast<const unsigned char *>(str.c_str());
 
 	output.reserve(str.size());
@@ -123,9 +125,9 @@ std::basic_string<unsigned> UTF8Decode(const std::string &str)
 	return output;
 }
 
-std::basic_string<unsigned> UTF16Decode(const std::wstring &str)
+std::basic_string<char32_t> UTF16Decode(const std::wstring &str)
 {
-	std::basic_string<unsigned> output;
+	std::basic_string<char32_t> output;
 	auto bytes = reinterpret_cast<const unsigned short *>(str.c_str());
 
 	output.reserve(str.size());
@@ -160,7 +162,7 @@ std::basic_string<unsigned> UTF16Decode(const std::wstring &str)
 	return output;
 }
 
-std::string shiftJISEncode(const std::basic_string<unsigned> &str)
+std::string shiftJISEncode(const std::basic_string<char32_t> &str)
 {
 	std::string output;
 
@@ -175,7 +177,9 @@ std::string shiftJISEncode(const std::basic_string<unsigned> &str)
 		auto it = shiftJISReverseConvTable.find(unicodeValue);
 		uint16_t value = 0xFFFD;
 
-		if (it != shiftJISReverseConvTable.end())
+		if (unicodeValue < 0x7F)
+			value = unicodeValue;
+		else if (it != shiftJISReverseConvTable.end())
 			value = it->second;
 		if (value > 0xFF)
 			output.push_back(value >> 8U);
@@ -185,7 +189,7 @@ std::string shiftJISEncode(const std::basic_string<unsigned> &str)
 	return output;
 }
 
-std::string UTF8Encode(const std::basic_string<unsigned> &str)
+std::string UTF8Encode(const std::basic_string<char32_t> &str)
 {
 	std::string output;
 
@@ -217,7 +221,7 @@ std::string UTF8Encode(const std::basic_string<unsigned> &str)
 	return output;
 }
 
-std::wstring UTF16Encode(const std::basic_string<unsigned> &str)
+std::wstring UTF16Encode(const std::basic_string<char32_t> &str)
 {
 	std::wstring output;
 
